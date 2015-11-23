@@ -90,7 +90,7 @@ namespace NVMSharp.Views
                         break;
                 }
 
-                RootGrid.ColumnDefinitions[0] = new ColumnDefinition { Width = new GridLength(SplitViewMenu.Width) };
+                RootGrid.ColumnDefinitions[0].Width = new GridLength(SplitViewMenu.Width);
                 RootGrid.InvalidateVisual();
             };
 
