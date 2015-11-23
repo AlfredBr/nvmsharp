@@ -90,7 +90,7 @@ namespace NVMSharp.Views
                         break;
                 }
 
-                RootGrid.ColumnDefinitions[0] = new ColumnDefinition { Width = new GridLength(SplitViewMenu.Width) };
+                RootGrid.ColumnDefinitions[0].Width = new GridLength(SplitViewMenu.Width);
                 RootGrid.InvalidateVisual();
             };
 
@@ -110,6 +110,7 @@ namespace NVMSharp.Views
             // determine how wide column zero should be based on window size
             // if window is maximized, column zero width is equal to current menu width.
             // if window is normal, column zero width is equal to narrow menu width
+
             return WindowState == WindowState.Maximized
                        ? (int) SplitViewMenu.Width
                        : (int) SplitViewMenuWidth.Narrow;
