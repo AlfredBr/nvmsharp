@@ -63,6 +63,7 @@
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"
                        Text="{Binding AppModeTitle}" />
+            
             <!-- Key Commands -->
             <StackPanel HorizontalAlignment="Right"
                         Orientation="Horizontal">

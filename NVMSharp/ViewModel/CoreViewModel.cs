@@ -25,8 +25,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
@@ -1281,10 +1283,15 @@ namespace NVMSharp.ViewModel
         private void UpdateDisplayValues()
         {
             if (string.IsNullOrWhiteSpace(ActiveKey))
+            {
                 return;
+            }
 
             DisplayValues = new ObservableCollection<string>(_currentVars?[ActiveKey]?.Values);
-            ActiveValue = DisplayValues.Count > 0 ? DisplayValues[0] : null;
+
+            ActiveValue = DisplayValues.Count > 0 
+                ? DisplayValues[0] 
+                : null;
         }
 
         private void ValidateModification()
@@ -1336,12 +1343,40 @@ namespace NVMSharp.ViewModel
 
         private string ValidateValue(bool exceptActiveValue)
         {
-            if (String.IsNullOrWhiteSpace(_modifiedValue))
+            if (string.IsNullOrWhiteSpace(_modifiedValue))
+            {
                 return string.Empty;
+            }
 
-            var values = exceptActiveValue ? DisplayValues.Except(new List<string> { ActiveValue }) : DisplayValues;
+            var values = exceptActiveValue 
+                ? DisplayValues.Except(new List<string> { ActiveValue }) 
+                : DisplayValues;
 
-            return (values.Contains(_modifiedValue)) ? Constants.VALIDATION_VALUE_ERROR : string.Empty;
+            var validateValue = values.Contains(_modifiedValue)
+                                    ? Constants.VALIDATION_VALUE_ERROR
+                                    : !IsADirectory(_modifiedValue)
+                                          ? Constants.FOLDER_VALIDATION_VALUE_ERROR
+                                          : string.Empty;
+
+            return validateValue;
+        }
+
+        private bool IsADirectory(string foldername)
+        {
+            if (foldername.Length < 3)
+            {
+                // if it's too short, it's not a directory
+                return true;
+            }
+
+            if (new Regex(@"^[A-z]:\\.*$").Match(foldername).Success == false)
+            {
+                // if it does not look a little like a directory, it's probably not
+                return true;
+            }
+            
+            // check to see if a directory exists
+            return Directory.Exists(foldername);
         }
 
         private bool CanImport()

@@ -84,6 +84,7 @@ namespace NVMSharp.Common
         public const string VALIDATION_USER_KEY_ERROR = "User Variable already exists!";
         public const string VALIDATION_SYSTEM_KEY_ERROR = "System Variable already exists!";
         public const string VALIDATION_VALUE_ERROR = "Value already exists!";
+        public const string FOLDER_VALIDATION_VALUE_ERROR = "Folder does not exist!";
         public const string SELECT_ENVAR_IMPORT = "Select the Environment Variable(s) to import";
         public const string SELECT_ENVAR_EXPORT = "Select the Environment Variable(s) to export";
         public const string NO_ENVAR_AVAILABLE_FOR_IMPORT = "No Environment Variables are available for importing!";
